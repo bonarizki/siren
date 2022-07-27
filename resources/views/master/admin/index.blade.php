@@ -48,7 +48,7 @@
                             <a href="{{ url('type') }}" class="dropdown-item" id="master-type">Master Type</a>
                             <a href="{{ url('brand') }}" class="dropdown-item" id="master-brand">Master Brand</a>
                             <a href="{{ url('cars') }}" class="dropdown-item" id="master-car">Master Car</a>
-                            <a href="{{ url('user') }}" class="dropdown-item" id="master-user">Master User</a>
+                            <a href="{{ url('users') }}" class="dropdown-item" id="master-user">Master User</a>
                         </div>
                     </div>
                     <a href="{{ url('orders') }}" class="nav-item nav-link" id="order">
