@@ -55,7 +55,7 @@
                                             </li>
                                         </ul>
                                         <div class="d-flex action">
-                                            <a href="contact.html" class="btn btn-primary">Rent Now</a>
+                                            <span class="btn btn-primary" onclick="showForm('{{ $car->id }}')">Rent Now</span>
                                         </div>
                                     </div>
                                 </div>

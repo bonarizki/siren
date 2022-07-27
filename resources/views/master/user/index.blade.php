@@ -4,7 +4,11 @@
 <head>
     <title>Car Rent | @yield('title')</title>
     @include('master.user.include.header')
-
+    <style>
+        .datepicker-plot-area {
+            z-index: 1151 !important;
+        }
+        </style>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -49,8 +53,13 @@
                                 <li><a href="services.html" class="nav-link">Services</a></li>
                                 <li id="cars"><a href="{{ url('cars-rent') }}" class="nav-link">Cars</a></li>
                                 <li><a href="about.html" class="nav-link">About</a></li>
-                                <li><a href="blog.html" class="nav-link">Login</a></li>
-                                <li><a href="contact.html" class="nav-link">Register</a></li>
+                                @auth
+                                    <li><a href="#" class="nav-link">Welcome, {{ Auth::user()->name }}</a></li>
+                                    <li><a href="{{ url('logout') }}" class="nav-link">logout</a></li>
+                                @else
+                                    <li><a href="{{ url('login') }}" class="nav-link">Login</a></li>
+                                    <li><a href="contact.html" class="nav-link">Register</a></li>
+                                @endauth
                             </ul>
                         </nav>
                     </div>
@@ -63,17 +72,18 @@
         @yield('content')
 
         <!-- Modal -->
-    <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="modal-rent" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Book Cars</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
+                    <form id="form-rent">
+                        @csrf
+                        <div class="mb-3" hidden>
                             <label for="car_id" class="form-label">Car ID</label>
-                            <input type="text" class="form-control" id="car_id" name="car_id" disabled>
+                            <input type="text" class="form-control" id="car_id" name="car_id" >
                         </div>
                         <div class="mb-3">
                             <label for="car_name" class="form-label">Car Name</label>
@@ -89,18 +99,21 @@
                         </div>
                         <div class="mb-3">
                             <label for="order_days" class="form-label">Order Days</label>
-                            <input type="text" class="form-control" id="order_days" >
+                            <input type="text" class="form-control datepicker" id="order_days" name="order_days">
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        <div class="mb-3">
+                            <label for="total_days" class="form-label">Total Days</label><br>
+                            <span><b>Total : <i id="total_days"></i></b></span>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="mb-3">
+                            <label for="total_prices" class="form-label">Total Price</label><br>
+                            <span><b>Total : <i id="total_price"></i></b></span>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="cekAuthUser()">Order</button>
                 </div>
             </div>
         </div>
@@ -134,9 +147,72 @@
     @yield('script')
 
     <script>
-        const showForm = () => {
-            $('#modal').modal('show');
+        const showForm = (id) => {
+            $('#modal-rent').modal('show');
+            getDetailCar(id);
         }
+
+        const getDetailCar = (id) => {
+            $.ajax({
+                url : "{{ url('cars-rent') }}/"+id+"/edit",
+                type : "get",
+                success : (res) => {
+                    let data = res.data
+                    $('#car_id').val(data.id)
+                    $('#car_name').val(data.car_name)
+                    $('#car_type').val(data.types.type_name)
+                    $('#car_price').val(formatRupiahReturn(data.car_price))
+                    $('.datepicker').daterangepicker({
+                        orientation: 'top'
+                    }, function(start, end, label) {
+                        date1 = new Date(start.format('YYYY-MM-DD'))
+                        date2 = new Date(end.format('YYYY-MM-DD'))
+                        dayDiff = getDifferenceInDays(date1,date2)
+                        $('#total_days').text(dayDiff)
+                        getTotalPrice(dayDiff)
+                    });
+                }
+            })
+        }
+
+        const getDifferenceInDays = (date1, date2) =>{
+            const diffInMs = Math.abs(date2 - date1);
+            return diffInMs / (1000 * 60 * 60 * 24);
+        }
+
+        const getTotalPrice = (dayDiff) =>{
+            let price = $('#car_price').val();
+            price = price.replace(/^Rp./ig, '');
+            price = price.replaceAll('.', '');
+            let total_price = price * dayDiff
+            total_price = formatRupiahReturn(`'${total_price}'`)
+            $('#total_price').text(total_price)
+        }
+
+        const cekAuthUser = () => {
+            let user = "{{ Auth::user() }}"
+            if (user == '') {
+                sweetError('Please Login');
+            }else{
+                let data = $('#form-rent').serialize()
+                $.ajax({
+                    type : "post",
+                    url : "{{ url('cars-rent') }}",
+                    data : data,
+                    success : (res) => {
+                        sweetSuccess(res.status,res.message)
+                    },
+                    error : (res) => {
+                        errorHandle(res)
+                    },
+                    complete : () => {
+                        $('#modal-rent').modal('hide');
+                    }
+                })
+            }
+        }
+
+
     </script>
 
 </body>

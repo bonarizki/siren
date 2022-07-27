@@ -57,7 +57,7 @@
                             </li>
                         </ul>
                         <div class="d-flex action">
-                            <span class="btn btn-primary" onclick="showForm()">Rent Now</span>
+                            <span class="btn btn-primary" onclick="showForm('{{ $car->id }}')">Rent Now</span>
                         </div>
                     </div>
             </div>

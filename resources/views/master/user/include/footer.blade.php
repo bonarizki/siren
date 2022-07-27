@@ -7,7 +7,14 @@
 <script src="user/js/jquery.animateNumber.min.js"></script>
 <script src="user/js/jquery.fancybox.min.js"></script>
 <script src="user/js/jquery.easing.1.3.js"></script>
-<script src="user/js/bootstrap-datepicker.min.js"></script>
+{{-- <script src="user/js/bootstrap-datepicker.min.js"></script> --}}
 <script src="user/js/aos.js"></script>
 
 <script src="user/js/main.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="script.js"></script>

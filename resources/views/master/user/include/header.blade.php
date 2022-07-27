@@ -15,3 +15,5 @@
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="user/css/style.css">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
