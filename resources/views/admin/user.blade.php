@@ -111,7 +111,7 @@
             $('#master-user').addClass('active');
             $('#table').DataTable({
                 ajax : {
-                    url : "{{ url('user') }}",
+                    url : "{{ url('users') }}",
                     method : "get",
                 },
                 destroy : true,
@@ -178,7 +178,7 @@
             let data = $('#form').serialize();
             $.ajax({
                 type : "POST",
-                url : "{{ url('user') }}",
+                url : "{{ url('users') }}",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -197,7 +197,7 @@
         const edit = (id) => {
             $.ajax({
                 type : "get",
-                url : `{{ url('user') }}/${id}/edit`,
+                url : `{{ url('users') }}/${id}/edit`,
                 success : (res) => {
                     $('#name').val(res.data.name);
                     $('#id_card').val(res.data.id_card);
@@ -216,7 +216,7 @@
             let data = $('#form').serialize();
             $.ajax({
                 type : "PATCH",
-                url : "{{ url('user') }}/" + id,
+                url : "{{ url('users') }}/" + id,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -252,7 +252,7 @@
         const deleteProcess = (id) => {
             $.ajax({
                 type : "delete",
-                url : "{{ url('user') }}/" + id,
+                url : "{{ url('users') }}/" + id,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },

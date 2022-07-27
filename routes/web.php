@@ -43,7 +43,7 @@ Route::middleware(['auth.admin'])->group(function(){
     
     Route::resource('type',TypeController::class);
     Route::resource('brand',BrandController::class);
-    Route::resource('user',UserController::class);
+    Route::resource('users',UserController::class);
     Route::post('cars-update',[CarController::class,'update']);
     Route::resource('cars',CarController::class)->except(['update']);
     Route::resource('orders', OrderController::class);
