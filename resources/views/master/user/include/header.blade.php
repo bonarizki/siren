@@ -13,7 +13,16 @@
 <link rel="stylesheet" href="user/fonts/flaticon/font/flaticon.css">
 <link rel="stylesheet" href="user/css/aos.css">
 
+{{-- filepond --}}
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="user/css/style.css">
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<style>
+    
+</style>
+

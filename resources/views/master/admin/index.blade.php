@@ -79,8 +79,7 @@
                             <span class="d-none d-lg-inline-flex">{{ Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            {{-- <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a> --}}
+                            <a class="dropdown-item" onclick="ChangePass()">Reset Password</a>
                             <a href="{{ url('logout') }}" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
@@ -111,6 +110,46 @@
         </div>
         <!-- Content End -->
 
+        <!-- Modal -->
+        <div class="modal fade" id="modalChangePass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="reset-password">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="col-12">
+                                        <label for="old_pass" class="form-label">Old Password</label>
+                                        <input type="password" class="form-control" id="old_password" name="old_password">
+                                        <div class="invalid-feedback" id="old_password_alert"></div>
+
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="pass_1" class="form-label">New Password</label>
+                                        <input type="password" class="form-control" id="new_password" name="new_password">
+                                        <div class="invalid-feedback" id="new_password_alert"></div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="pass_2" class="form-label">Re-New Password</label>
+                                        <input type="password" class="form-control" id="re-new_password" name="re-new_password">
+                                        <div class="invalid-feedback" id="re-new_password_alert"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="saveNewPass()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
@@ -118,6 +157,32 @@
     @include('master.admin.include.footer')
 
     @yield('script')
+
+    <script>
+        const ChangePass = () => {
+            $('#modalChangePass').modal('show');
+        }
+
+        const saveNewPass = () => {
+            let data = $('#reset-password').serialize()
+            $.ajax({
+                type : "POST",
+                url : "{{ url('changePass') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data : data,
+                success : (res) => {
+                    sweetSuccess(res.status,res.message)
+                    $('#modalChangePass').modal('hide');
+                },
+                error : (res) => {
+                    errorHandle(res)
+                },
+                
+            })
+        }
+    </script>
 </body>
 
 </html>

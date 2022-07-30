@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\User\CarController as CarUserController;
+use App\Http\Controllers\User\StatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,15 +27,14 @@ Route::middleware(['ifauth'])->group(function () {
     Route::get('login',function(){
         return view('auth.login');
     });
-    Route::post('/login',[AuthController::class,'authenticate']);
 });
 
+Route::post('login',[AuthController::class,'authenticate']);
 Route::get('/', [DashboardController::class,'index']);
-
-
 Route::get('logout', [AuthController::class,'logout']);
-
-
+Route::post('changePass',[AuthController::class,'changePass']);
+Route::post('upload-transfer',[StatusController::class,'update']);
+Route::resource('status',StatusController::class)->except(['update']);
 
 Route::middleware(['auth.admin'])->group(function(){
     Route::get('admin-dashboard', function () {
@@ -48,7 +48,6 @@ Route::middleware(['auth.admin'])->group(function(){
     Route::resource('cars',CarController::class)->except(['update']);
     Route::resource('orders', OrderController::class);
 });
-
 
 // Route::get(/)
 Route::get('cars-rent',[CarUserController::class,'index']);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\auth\LoginRequest;
 use App\Http\Requests\auth\ChangePasswordRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -26,6 +27,8 @@ class AuthController extends Controller
                 return redirect('admin-dashboard');
             }
         }
+        return back()->with('login_fail','Login Failed! ')
+        ->withInput($request->all());
     }
 
     public function logout(Request $request)

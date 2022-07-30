@@ -8,7 +8,8 @@
         .datepicker-plot-area {
             z-index: 1151 !important;
         }
-        </style>
+    </style>
+    
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -55,6 +56,7 @@
                                 <li><a href="about.html" class="nav-link">About</a></li>
                                 @auth
                                     <li><a href="#" class="nav-link">Welcome, {{ Auth::user()->name }}</a></li>
+                                    <li><a href="{{ url('status') }}" class="nav-link" id="status">status</a></li>
                                     <li><a href="{{ url('logout') }}" class="nav-link">logout</a></li>
                                 @else
                                     <li><a href="{{ url('login') }}" class="nav-link">Login</a></li>
