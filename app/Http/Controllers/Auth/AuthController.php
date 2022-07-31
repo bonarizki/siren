@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\auth\LoginRequest;
 use App\Http\Requests\auth\ChangePasswordRequest;
+use App\Http\Requests\User\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,5 +55,14 @@ class AuthController extends Controller
         User::find($id)
         ->update(["password" => bcrypt("defaultpass123")]);
         return response()->json(["status"=>"success","message"=>"Password Reset"]); 
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $request->merge([
+            "password" => bcrypt($request->password)
+        ]);
+        User::create($request->except('_token','re_password'));
+        return redirect('login')->with('register_success','Register Success! ');
     }
 }

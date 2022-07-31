@@ -15,7 +15,7 @@ class CarController extends Controller
 {
     public function index(Request $request)
     {
-        $cars = Car::select('*');
+        $cars = Car::select('*')->with('Orders');
         if($request->search != null) :
             $cars->orWhereHas('Brands',function($q) use($request){
                 $q->where('brand_name', $request->search)
@@ -30,7 +30,7 @@ class CarController extends Controller
         endif;
 
 
-        $cars = $cars->paginate(2);
+        $cars = $cars->paginate(6);
         return view('user.cars',compact('cars'));
     }
 

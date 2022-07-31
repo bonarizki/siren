@@ -63,9 +63,9 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Order $order)
     {
-        //
+        return response()->json(["status" => "success", "data" => $order ]);
     }
 
     /**
@@ -75,9 +75,12 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Order $order)
     {
-        //
+        $order->update([
+            "order_status" => $request->order_status
+        ]);
+        return response()->json(["status" => "success", "message" => "Order Updated" ]);
     }
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Type;
 use App\Models\Brand;
+use App\Models\Order;
 
 class Car extends Model
 {
@@ -24,5 +25,10 @@ class Car extends Model
     public function Brands()
     {
         return $this->hasOne(Brand::class, 'id', 'brand_id');
+    }
+
+    public function Orders()
+    {
+        return $this->hasOne(Order::class,'car_id','id')->latest();
     }
 }

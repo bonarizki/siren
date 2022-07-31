@@ -70,3 +70,11 @@ function formatRupiahReturn(angka, prefix = 'Rp. '){
     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
     return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 }
+
+function getDiffDays(start,end)
+{
+    date1 = new Date(start.format('YYYY-MM-DD'))
+    date2 = new Date(end.format('YYYY-MM-DD'))
+    dayDiff = getDifferenceInDays(date1,date2)
+    return dayDiff
+}

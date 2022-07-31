@@ -27,9 +27,13 @@ Route::middleware(['ifauth'])->group(function () {
     Route::get('login',function(){
         return view('auth.login');
     });
+    Route::get('register',function(){
+        return view('auth.register');
+    });
 });
 
 Route::post('login',[AuthController::class,'authenticate']);
+Route::post('register',[AuthController::class,'register']);
 Route::get('/', [DashboardController::class,'index']);
 Route::get('logout', [AuthController::class,'logout']);
 Route::post('changePass',[AuthController::class,'changePass']);

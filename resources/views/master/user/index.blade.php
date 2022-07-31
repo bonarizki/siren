@@ -60,7 +60,7 @@
                                     <li><a href="{{ url('logout') }}" class="nav-link">logout</a></li>
                                 @else
                                     <li><a href="{{ url('login') }}" class="nav-link">Login</a></li>
-                                    <li><a href="contact.html" class="nav-link">Register</a></li>
+                                    <li><a href="{{ url('register') }}" class="nav-link">Register</a></li>
                                 @endauth
                             </ul>
                         </nav>
@@ -131,8 +131,7 @@
                                 Copyright &copy;<script>
                                     document.write(new Date().getFullYear());
                                 </script> All rights reserved | This template is made with <i
-                                    class="icon-heart text-danger" aria-hidden="true"></i> by <a
-                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    class="icon-heart text-danger" aria-hidden="true"></i> by AFRIAN DWI WIBOWO
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             </p>
                         </div>
@@ -167,9 +166,7 @@
                     $('.datepicker').daterangepicker({
                         orientation: 'top'
                     }, function(start, end, label) {
-                        date1 = new Date(start.format('YYYY-MM-DD'))
-                        date2 = new Date(end.format('YYYY-MM-DD'))
-                        dayDiff = getDifferenceInDays(date1,date2)
+                        let dayDiff = getDiffDays(start,end);
                         $('#total_days').text(dayDiff)
                         getTotalPrice(dayDiff)
                     });

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>SIREN | Login </title>
+    <title>SIREN | Register </title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -62,18 +62,55 @@
                                 <div class="card-body">
 
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                                        <p class="text-center small">Enter your username & password to login</p>
+                                        <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                                        <p class="text-center small">Enter your personal details to create account
+                                        </p>
                                     </div>
                                     
-                                    <form class="row g-3" novalidate method="post" action="{{ url('login') }}">
+                                    <form class="row g-3" novalidate method="post" action="{{ url('register') }}">
                                         @csrf
+                                        <div class="col-12">
+                                            <label for="name" class="form-label">Name</label>
+                                            <div class="input-group has-validation">
+                                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                                    id="name" required value="{{ old('name') }}">
+                                                @error('name')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="id_card" class="form-label">ID Card</label>
+                                            <div class="input-group has-validation">
+                                                <input type="text" name="id_card" class="form-control @error('id_card') is-invalid @enderror"
+                                                    id="id_card" required value="{{ old('id_card') }}">
+                                                @error('id_card')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                         <div class="col-12">
                                             <label for="email" class="form-label">Email</label>
                                             <div class="input-group has-validation">
                                                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                                                     id="email" required value="{{ old('email') }}">
                                                 @error('email')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="phone_number" class="form-label">Phone Number</label>
+                                            <div class="input-group has-validation">
+                                                <input type="phone_number" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror"
+                                                    id="phone_number" required value="{{ old('phone_number') }}">
+                                                @error('phone_number')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -91,6 +128,16 @@
                                                 </div>
                                             @enderror
                                         </div>
+                                        <div class="col-12">
+                                            <label for="re_password" class="form-label">Re - Password</label>
+                                            <input type="password" name="re_password" class="form-control @error('re_password') is-invalid @enderror"
+                                                id="re_password" required value="{{ old('pass') }}">
+                                            @error('re_password')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
 
                                         <div class="col-12">
                                             <div class="form-check">
@@ -100,14 +147,14 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Login</button>
+                                            <button class="btn btn-primary w-100" type="submit">Register</button>
                                         </div>
                                         <div class="col-12">
-                                            <p class="small mb-0">Don't have account? <a
-                                                    href="{{ url('register') }}">Create an account</a></p>
+                                            <p class="small mb-0"> Already have an account? 
+                                                <a href="{{ url('login') }}">Log in</a>
+                                            </p>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
 
@@ -155,15 +202,6 @@
                 text: session + 'Something went wrong!',
                 // footer: '<a href="">Why do I have this issue?</a>'
             })
-        }
-
-        let register = "{{ session('register_success') }}"
-        if (register) {
-            Swal.fire(
-                'Good job!',
-                'Register Success, Please Login',
-                'success'
-            );
         }
         
     </script>

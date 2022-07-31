@@ -57,7 +57,11 @@
                             </li>
                         </ul>
                         <div class="d-flex action">
-                            <span class="btn btn-primary" onclick="showForm('{{ $car->id }}')">Rent Now</span>
+                            @if ($car->Orders == null || $car->Orders->order_status == 'done')
+                                <span class="btn btn-primary" onclick="showForm('{{ $car->id }}')">Rent Now</span>
+                            @else
+                                <span class="btn btn-danger">NOT AVAILABLE</span>
+                            @endif
                         </div>
                     </div>
             </div>

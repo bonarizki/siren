@@ -29,7 +29,6 @@
                                 </tr>
                                 <tr>
                                     <th scope="col"><center>Verifikasi<center></th>
-                                    <th scope="col"><center>Edit<center></th>
                                     <th scope="col"><center>Delete<center></th>
                                 </tr>
                             </thead>
@@ -56,14 +55,63 @@
                                 <div class="col-sm-12 col-xl-12">
                                     <div class="bg-light rounded h-100 p-4">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="brand_name" name="brand_name"
-                                                placeholder="Brand Name">
-                                            <label for="brand_name">Brand Name</label>
+                                            <input type="text" class="form-control" id="order_code" name="order_code"
+                                                placeholder="Order Code" readonly>
+                                            <label for="order_code">Order Code</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="brand_code" name="brand_code"
-                                                placeholder="Brand Code">
-                                            <label for="brand_code">Brand Code</label>
+                                            <input type="text" class="form-control" id="brand_name" name="brand_name"
+                                                placeholder="Brand" readonly>
+                                            <label for="brand_name">Brand Car</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="type_name" name="type_name"
+                                                placeholder="Type Car" readonly>
+                                            <label for="type_name">Type Car</label>
+                                        </div>
+                                        <div class="row">
+                                            <din class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="order_start" name="order_start"
+                                                        placeholder="Rental Start" readonly>
+                                                    <label for="order_start">Rental Start</label>
+                                                </div>
+                                            </din>
+                                            <din class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="order_end" name="order_end"
+                                                        placeholder="Rental Start" readonly>
+                                                    <label for="order_end">Rental End</label>
+                                                </div>
+                                            </din>
+                                        </div>
+                                        <div class="row">
+                                            <din class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="price_day" name="price_day"
+                                                        placeholder="Price" readonly>
+                                                    <label for="price_day">Price</label>
+                                                </div>
+                                            </din>
+                                            <din class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="total_bayar" name="total_bayar"
+                                                        placeholder="Total" readonly>
+                                                    <label for="total_bayar">Total</label>
+                                                </div>
+                                            </din>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="car_image">Booking Status</label>
+                                            <select name="order_status" id="order_status" class="form-control">
+                                                <option value="payment">Payment</option>
+                                                <option value="done">Done</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="car_image">File Transaksi</label>
+                                            <input type="text" class="form-control" id="file" name="file"
+                                                placeholder="File Transaksi" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -84,6 +132,10 @@
 
 @section('script')
     <script>
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        FilePond.registerPlugin(FilePondPluginGetFile);
+
+
         $(document).ready(function () {
             $('#order').addClass('active');
             $('#table').DataTable({
@@ -128,19 +180,16 @@
                 {
                     data:"id",
                     name:"id",
-                    render : (data) => {
-                        return `<center>
-                                    <span class='bi bi-pencil-square' onclick="showModal('edit','${data}')"></span>
-                                </center>`;
-                    }
-                },
-                {
-                    data:"id",
-                    name:"id",
-                    render : (data) => {
-                        return `<center>
-                                    <span class='bi bi-pencil-square' onclick="showModal('edit','${data}')"></span>
-                                </center>`;
+                    render : (data,meta,row) => {
+                        if (row.order_status == 'payment') {
+                            return `<center>
+                                        <span class='bi bi-pencil-square' onclick="showModal('edit','${data}')"></span>
+                                    </center>`;
+                        }else{
+                            return `<center>
+                                        <span class='bi bi-lock'></span>
+                                    </center>`;
+                        }
                     }
                 },
                 {
@@ -173,14 +222,42 @@
                 type : "get",
                 url : `{{ url('orders') }}/${id}/edit`,
                 success : (res) => {
-                    $('#brand_name').val(res.data.brand_name);
-                    $('#brand_code').val(res.data.brand_code);
+                    let data = res.data
+                    $('#order_code').val(data.order_code);
+                    $('#brand_name').val(data.car.brands.brand_name);
+                    $('#type_name').val(data.car.types.type_name);
+                    $('#order_start').val(data.order_start);
+                    $('#order_end').val(data.order_end);
+                    $('#order_status').val(data.order_status);
+                    $('#price_day').val(formatRupiahReturn(`'${data.car.car_price}'`));
+                    date1 = new Date(data.order_start)
+                    date2 = new Date(data.order_end)
+                    dayDiff = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
+                    $('#total_bayar').val(formatRupiahReturn(`'${data.car.car_price * dayDiff}'`));
+                    $('#file').filepond({
+                        name: 'filepond',
+                        labelButtonDownloadItem: 'custom label', // by default 'Download file'
+                        allowDownloadByUrl: false, // by default downloading by URL disabled
+                    });
+                    $('#file').filepond('removeFiles');
+                    showImage(data)
+
                 },
                 complete : () => {
                     $('#modal').modal('show');
                     $('#submit').attr('onclick',`update('${id}')`);
                 }
             })
+        }
+
+        const showImage = (data) => {
+            $('#file').filepond();
+            if (data.file_pembayaran != null) {
+                $('#file').filepond('addFile', `{{asset('file_upload/transaksi_file/${data.file_pembayaran}')}}`)
+                .then(function(file){
+
+                });
+            }
         }
 
         const update = (id) => {
