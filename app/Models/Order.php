@@ -12,10 +12,15 @@ class Order extends Model
 
     protected $fillable = [];
     protected $guarded = ['id'];
-    protected $with = ['Car'];
+    protected $with = ['Car','User'];
 
     public function Car()
     {
         return $this->hasOne(Car::class, 'id', 'car_id');
+    }
+
+    public function User()
+    {
+        return $this->hasOne(User::class,'id','user_id');
     }
 }

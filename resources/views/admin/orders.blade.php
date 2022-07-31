@@ -19,6 +19,7 @@
                                 <tr>
                                     <th scope="col" rowspan="2" class="align-middle">#</th>
                                     <th scope="col" rowspan="2" class="align-middle">Order Code</th>
+                                    <th scope="col" rowspan="2" class="align-middle">Order By</th>
                                     <th scope="col" rowspan="2" class="align-middle">Car Brand</th>
                                     <th scope="col" rowspan="2" class="align-middle">Car Name</th>
                                     <th scope="col" rowspan="2" class="align-middle">Car Type</th>
@@ -152,6 +153,10 @@
                 {
                     data: "order_code",
                     name: "order_code"
+                },
+                {
+                    data: "user.name",
+                    name: "user.name"
                 },
                 {
                     data: "car.brands.brand_name",

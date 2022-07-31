@@ -51,6 +51,8 @@
                 @else
                     <span class="badge badge-info">Paid</span>
                 @endif
+                <br>
+                <span class="text-danger mt-2">*note silahkan transfer ke rekening BCA 3010053403 AN Rizki</span>
             </div>
         </div>
         @empty
