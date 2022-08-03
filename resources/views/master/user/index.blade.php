@@ -51,9 +51,7 @@
                         <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
                             <ul class="site-menu main-menu js-clone-nav ml-auto ">
                                 <li id="home"><a href="{{ url('/') }}" class="nav-link">Home</a></li>
-                                <li><a href="services.html" class="nav-link">Services</a></li>
                                 <li id="cars"><a href="{{ url('cars-rent') }}" class="nav-link">Cars</a></li>
-                                <li><a href="about.html" class="nav-link">About</a></li>
                                 @auth
                                     <li><a href="#" class="nav-link">Welcome, {{ Auth::user()->name }}</a></li>
                                     <li><a href="{{ url('status') }}" class="nav-link" id="status">status</a></li>
