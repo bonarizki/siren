@@ -12,6 +12,16 @@
                         <div class="col-md-6 d-flex justify-content-start align-items-center">
                             <h6 class="mb-2">Order Rental</h6>
                         </div>
+                        <div class="col-md-6 d-flex justify-content-end align-items-center">
+                            <h6 class="mb-2">
+                                <a href="{{ url('reports') }}" target="_blank">
+                                    <button class="btn btn-success">
+                                        <i class="fa fa-file-pdf"></i>
+                                        Report
+                                    </button>
+                                </a>
+                            </h6>
+                        </div>
                     </div>
                     <div class="">
                         <table class="table table-bordered table-hover" id="table" width="100%">

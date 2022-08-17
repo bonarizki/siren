@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
@@ -51,6 +52,7 @@ Route::middleware(['auth.admin'])->group(function(){
     Route::post('cars-update',[CarController::class,'update']);
     Route::resource('cars',CarController::class)->except(['update']);
     Route::resource('orders', OrderController::class);
+    Route::get('reports',[ReportController::class, 'generatePDF']);
 });
 
 // Route::get(/)
